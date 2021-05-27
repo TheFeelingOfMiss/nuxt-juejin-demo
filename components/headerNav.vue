@@ -9,11 +9,16 @@
           <n-link to="/" active-class="nav-link-active" class="nav-link">
             首页
           </n-link>
-          <n-link to="/pins" class="nav-link"> 沸点 </n-link>
-          <n-link to="/books" class="nav-link"> 小册 </n-link>
-          <n-link to="/event/all" class="nav-link"> 活动 </n-link>
+          <n-link to="/pins" class="nav-link" active-class="nav-link-active"> 沸点 </n-link>
+          <n-link to="/books" class="nav-link" active-class="nav-link-active"> 小册 </n-link>
+          <n-link to="/event/all" class="nav-link" active-class="nav-link-active"> 活动 </n-link>
         </div>
-        <el-input class="search-input" size="small" placeholder="探索掘金" suffix-icon="el-icon-search"/>
+        <el-input
+          class="search-input"
+          size="small"
+          placeholder="探索掘金"
+          suffix-icon="el-icon-search"
+        />
         <el-button size="small" type="primary"> 创作者中心 </el-button>
         <el-button size="small" type="primary"> 写文章 </el-button>
         <el-button size="small" type="primary" plain> 登录 </el-button>
@@ -28,8 +33,10 @@
   width: 100%;
   left: 0;
   top: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f1f1;
+  z-index: 2;
   .header-box {
-    border-bottom: 1px solid #f1f1f1;
     .header-nav {
       margin: 0 auto;
       width: 100%;
