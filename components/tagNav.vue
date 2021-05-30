@@ -28,12 +28,12 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .tag-nav-wrap {
-  position: fixed;
   width: 100%;
   height: 3.833rem;
   left: 0;
   top: 5rem;
   background-color: #ffffff;
+  border-top: 1px solid #f1f1f1;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   .tag-nav-box {
     width: 100%;

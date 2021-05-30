@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div>
-      <header-nav />
-      <tag-nav :tag-list="tagList" />
+      <header-nav>
+        <tag-nav :tag-list="tagList" slot="tag" />
+      </header-nav>
     </div>
     <div class="main-container">
       <div class="main-container-left">
@@ -96,7 +97,9 @@
           </div>
         </div>
       </div>
-      <div class="main-container-right"></div>
+      <div class="main-container-right">
+        <index-slide :list="adverts" />
+      </div>
     </div>
   </div>
 </template>
@@ -105,26 +108,34 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  asyncData({ $axios }): Promise<object | void> | object | void {
-    return $axios
-      .$post(
-        `https://api.juejin.cn/recommend_api/v1/article/recommend_all_feed`,
-        {
-          id_type: 2,
-          client_type: 2608,
-          sort_type: 200,
-          cursor: '0',
-          limit: 20,
-        }
-      )
-      .then((res) => {
-        const { err_no, data } = res
-        console.log(data[0].item_info.author_user_info)
-        return {
-          list: err_no === 0 ? data : [],
-        }
-      })
+  async asyncData({ $axios }) {
+    // 获取广告
+    const getAdverts = $axios.$post(
+      `https://api.juejin.cn/content_api/v1/advert/query_adverts`,
+      {
+        layout: 1,
+        platform: 2608,
+        position: 100,
+      }
+    )
+    // 获取文章列表
+    const getArticles = $axios.$post(
+      `https://api.juejin.cn/recommend_api/v1/article/recommend_all_feed`,
+      {
+        id_type: 2,
+        client_type: 2608,
+        sort_type: 200,
+        cursor: '0',
+        limit: 20,
+      }
+    )
+    const [advertsRes, articlesRes] = await Promise.all([getAdverts, getArticles])
+    return {
+      adverts: advertsRes.err_no === 0 ? advertsRes.data : [],
+      list: articlesRes.err_no === 0 ? articlesRes.data : [],
+    }
   },
+  scrollToTop: true,
   data() {
     return {
       tagList: [
@@ -240,6 +251,7 @@ export default Vue.extend({
             width: 100%;
             padding-bottom: 16px;
             display: flex;
+            justify-content: space-between;
             border-bottom: 1px solid #e5e6eb;
             .article-content-box {
               .article-content {
